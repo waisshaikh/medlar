@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getCart, addToCart, updateCartItem, removeCartItem } from "../../services/cart.api.js";
+import { getCart, addToCart, updateCartItem, removeCartItem, clearCart as clearCartApi } from "../../services/cart.api.js";
 
 export const fetchCart = createAsyncThunk("cart/fetch", async (_, { rejectWithValue }) => {
   try {
@@ -38,6 +38,15 @@ export const removeItem = createAsyncThunk("cart/remove", async (itemId, { dispa
   }
 });
 
+export const clearCart = createAsyncThunk("cart/clear", async (_, { dispatch, rejectWithValue }) => {
+  try {
+    await clearCartApi();
+    dispatch(fetchCart());
+  } catch (err) {
+    return rejectWithValue(err.response?.data?.message);
+  }
+});
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -60,7 +69,11 @@ const cartSlice = createSlice({
         state.totalPrice = action.payload.totalPrice || 0;
         state.currency = action.payload.currency || "INR";
       })
-      .addCase(fetchCart.rejected, (state) => { state.loading = false; });
+      .addCase(fetchCart.rejected, (state) => { state.loading = false; })
+      .addCase(clearCart.fulfilled, (state) => {
+        state.items = [];
+        state.totalPrice = 0;
+      });
   },
 });
 

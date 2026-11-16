@@ -15,10 +15,23 @@ const router = Router();
 router.use(authenticateUser);
 
 router.get("/", getCartController);
-router.post("/add/:productId/:variantId?", validateAddToCart, cartController);
-router.patch("/item/:itemId", updateCartItemController);
-router.delete("/item/:itemId", removeCartItemController);
+router.delete("/", clearCartController);
 router.delete("/clear", clearCartController);
+
+// Add to cart with or without variant
+router.post("/:productId", validateAddToCart, cartController);
+router.post("/:productId/:variantId", validateAddToCart, cartController);
+router.post("/add/:productId", validateAddToCart, cartController);
+router.post("/add/:productId/:variantId", validateAddToCart, cartController);
+
+// Update / Remove items
+router.patch("/:itemId", updateCartItemController);
+router.patch("/item/:itemId", updateCartItemController);
+router.delete("/:itemId", removeCartItemController);
+router.delete("/item/:itemId", removeCartItemController);
+
+// Razorpay order creation
+router.post("/payment/create/order", createOrderController);
 router.post("/create-order", createOrderController);
 
 export default router;

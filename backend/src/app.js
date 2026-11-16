@@ -32,20 +32,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 app.use(passport.initialize());
 
-passport.use(new GoogleStrategy(
-  { clientID: config.Client_ID, clientSecret: config.Client_secret, callbackURL: `${config.BACKEND_ORIGIN}/api/auth/google/callback` },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      let user = await Usermodel.findOne({ googleId: profile.id });
-      if (!user) {
-        user = await Usermodel.findOne({ email: profile.emails?.[0]?.value });
-        if (user) { user.googleId = profile.id; await user.save(); }
-        else { user = await Usermodel.create({ googleId: profile.id, email: profile.emails?.[0]?.value, fullname: profile.displayName, contact: "" }); }
-      }
-      return done(null, user);
-    } catch (err) { return done(err, null); }
-  }
-));
+if (config.Client_ID && config.Client_secret) {
+  passport.use(new GoogleStrategy(
+    { clientID: config.Client_ID, clientSecret: config.Client_secret, callbackURL: `${config.BACKEND_ORIGIN}/api/auth/google/callback` },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await Usermodel.findOne({ googleId: profile.id });
+        if (!user) {
+          user = await Usermodel.findOne({ email: profile.emails?.[0]?.value });
+          if (user) { user.googleId = profile.id; await user.save(); }
+          else { user = await Usermodel.create({ googleId: profile.id, email: profile.emails?.[0]?.value, fullname: profile.displayName, contact: "" }); }
+        }
+        return done(null, user);
+      } catch (err) { return done(err, null); }
+    }
+  ));
+}
 
 app.get("/", (req, res) => res.status(200).json({ message: "Medlar API running" }));
 app.use("/api/auth", authRouter);
