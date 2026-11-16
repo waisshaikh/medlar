@@ -7,13 +7,13 @@ import { fetchProducts } from "../../store/slices/productSlice.js";
 import ProductCard from "../../components/ProductCard/ProductCard.jsx";
 
 const categories = [
-  { name: "Backpacks", slug: "backpacks", img: "/catalog/page_003.png" },
-  { name: "Laptop Bags", slug: "laptop-bags", img: "/catalog/page_010.png" },
-  { name: "Messenger Bags", slug: "messenger-bags", img: "/catalog/page_020.png" },
-  { name: "Sling Bags", slug: "sling-bags", img: "/catalog/page_030.png" },
-  { name: "Duffel Bags", slug: "duffel-bags", img: "/catalog/page_040.png" },
-  { name: "Travel Bags", slug: "travel-bags", img: "/catalog/page_050.png" },
-  { name: "Leather Bags", slug: "leather-bags", img: "/catalog/page_060.png" },
+  { name: "Backpacks", slug: "backpacks", img: "/products/backpack_black.jpg" },
+  { name: "Laptop Bags", slug: "laptop-bags", img: "/products/office_convertible_blue.jpg" },
+  { name: "Messenger Bags", slug: "messenger-bags", img: "/products/messenger_bag.jpg" },
+  { name: "Sling Bags", slug: "sling-bags", img: "/products/shoulder_bag.jpg" },
+  { name: "Duffel Bags", slug: "duffel-bags", img: "/products/duffel_croco.jpg" },
+  { name: "Travel Bags", slug: "travel-bags", img: "/products/duffel_blue.jpg" },
+  { name: "Leather Bags", slug: "leather-bags", img: "/products/duffel_leather.jpg" },
 ];
 
 const testimonials = [
@@ -120,10 +120,10 @@ export default function Home() {
                 style={{ backgroundColor: "#E8272A" }}
               />
               <img
-                src="/catalog/page_003.png"
+                src="/products/office_convertible_blue.jpg"
                 alt="Medlar Premium Bag"
-                className="relative z-10 w-full max-w-lg object-contain"
-                style={{ maxHeight: "80vh" }}
+                className="relative z-10 w-full max-w-lg object-contain drop-shadow-2xl"
+                style={{ maxHeight: "75vh" }}
               />
             </motion.div>
           </div>
@@ -274,7 +274,7 @@ export default function Home() {
             >
               <div className="aspect-[4/5] rounded-sm overflow-hidden" style={{ backgroundColor: "#111" }}>
                 <img
-                  src="/catalog/page_015.png"
+                  src="/products/duffel_croco.jpg"
                   alt="Medlar Story"
                   className="w-full h-full object-contain p-6"
                 />
